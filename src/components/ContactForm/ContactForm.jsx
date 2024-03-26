@@ -12,15 +12,7 @@ class ContactForm extends Component {
   handlerSubmit = (e) => {
     e.preventDefault();
 
-    const form = e.target;
-    const nameInput = form.elements.name.value;
-    const numberInput = form.elements.number.value;
-    console.log(nameInput, numberInput);
-
-    this.props.onSubmit({
-      name: this.state.name,
-      number: this.state.number,
-    });
+    this.props.onSubmit(this.state);
 
     this.resetForm();
   };

@@ -8,35 +8,60 @@ import ContactList from "./components/ContactList/ContactList";
 class App extends Component {
   state = {
     contacts: [
-      // { id: "id-1", name: "Rosie Simpson", number: "459-12-56" },
-      // { id: "id-2", name: "Hermione Kline", number: "443-89-12" },
-      // { id: "id-3", name: "Eden Clements", number: "645-17-79" },
-      // { id: "id-4", name: "Annie Copeland", number: "227-91-26" },
+      { id: "id-1", name: "Rosie Simpson", number: "459-12-56" },
+      { id: "id-2", name: "Hermione Kline", number: "443-89-12" },
+      { id: "id-3", name: "Eden Clements", number: "645-17-79" },
+      { id: "id-4", name: "Annie Copeland", number: "227-91-26" },
     ],
     filter: "",
   };
 
   createUser = (data) => {
-    const newUser = {
-      ...data,
-      id: nanoid(),
-    };
+    // const newUser = {
+    //   ...data,
+    //   id: nanoid(),
+    // };
+    const id = nanoid();
+    const name = data.name;
+    const number = data.number;
+    const contactsLists = [...this.state.contacts];
 
-    this.setState((prevState) => prevState.contacts.push(newUser));
+    contactsLists.push({ name, id, number });
+    this.setState({ contacts: contactsLists });
+    // this.setState((prevState) => prevState.contacts.push(newUser));
   };
 
   handlerChange = (e) => {
     this.setState({ filter: e.target.value });
   };
 
+  getVisibleFilter = () => {
+    return this.state.contacts.filter(({ name }) =>
+      name.toLowerCase().includes(this.state.filter.toLowerCase())
+    );
+  };
+
+  deleteContact = (id) => {
+    this.setState((prevState) => ({
+      contacts: prevState.contacts.filter((contact) => contact.id != id),
+    }));
+  };
+
   render() {
+    console.log("object :>> ", this.state);
+    const filteredContacts = this.getVisibleFilter();
+    console.log("filteredContacts :>> ", filteredContacts);
+
     return (
       <div>
-        <h1>Phonebook</h1>
+        <h1>Phone book</h1>
         <ContactForm onSubmit={this.createUser} />
         <h2>Contacts</h2>
         <Filter value={this.state.filter} onChange={this.handlerChange} />
-        <ContactList userData={this.state.contacts} />
+        <ContactList
+          userData={filteredContacts}
+          onDeleteContact={this.deleteContact}
+        />
       </div>
     );
   }
