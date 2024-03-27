@@ -2,7 +2,7 @@ import { Component } from "react";
 import PropTypes from "prop-types";
 
 class ContactForm extends Component {
-  state = { name: " ", number: " " };
+  state = { name: "", number: "" };
 
   handlerChange = (e) => {
     const { name, value } = e.currentTarget;
@@ -19,8 +19,8 @@ class ContactForm extends Component {
 
   resetForm = () => {
     this.setState({
-      name: " ",
-      number: " ",
+      name: "",
+      number: "",
     });
   };
 
@@ -29,17 +29,17 @@ class ContactForm extends Component {
       <>
         <form onSubmit={this.handlerSubmit}>
           <label>
-            Name{" "}
+            Name
             <input
               type="text"
               name="name"
               value={this.state.name}
               onChange={this.handlerChange}
-              required
+              required={true}
             />
           </label>
           <label>
-            Number{" "}
+            Number
             <input
               type="tel"
               name="number"

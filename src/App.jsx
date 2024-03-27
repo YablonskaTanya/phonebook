@@ -9,7 +9,7 @@ class App extends Component {
   state = {
     contacts: [
       { id: "id-1", name: "Rosie Simpson", number: "459-12-56" },
-      { id: "id-2", name: "Hermione Kline", number: "443-89-12" },
+      { id: "id-2", name: "Herm Kline", number: "443-89-12" },
       { id: "id-3", name: "Eden Clements", number: "645-17-79" },
       { id: "id-4", name: "Annie Copeland", number: "227-91-26" },
     ],
@@ -17,18 +17,21 @@ class App extends Component {
   };
 
   createUser = (data) => {
-    // const newUser = {
-    //   ...data,
-    //   id: nanoid(),
-    // };
     const id = nanoid();
     const name = data.name;
     const number = data.number;
     const contactsLists = [...this.state.contacts];
 
-    contactsLists.push({ name, id, number });
+    if (contactsLists.findIndex((contact) => name === contact.name) !== -1) {
+      alert(`${name} is already added to contacts`);
+    } else {
+      contactsLists.push({ id, name, number });
+    }
+
+    if (!name && !number) {
+      alert("all fields must be filled");
+    }
     this.setState({ contacts: contactsLists });
-    // this.setState((prevState) => prevState.contacts.push(newUser));
   };
 
   handlerChange = (e) => {
